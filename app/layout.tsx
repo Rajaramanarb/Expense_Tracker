@@ -22,9 +22,9 @@ const spaceGrotesk = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Dev Overflow",
+  title: "Expense Tracker",
   description:
-    "A community-driven platform for asking and answering programming questions. Get help, share knowledge, and collaborate with developers from around the world. Explore topics in web development, mobile app development, algorithms, data structures, and more.",
+    "A comprehensive expense tracking application that helps you manage your finances. Track your income and expenses, analyze spending patterns, and get insights with AI-powered assistance to make better financial decisions.",
   icons: {
     icon: "/images/site-logo.svg",
   },

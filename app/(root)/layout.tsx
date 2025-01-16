@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 
+import { ChatButton } from "@/components/ChatButton";
 import LeftSidebar from "@/components/navigation/LeftSidebar";
 import Navbar from "@/components/navigation/navbar";
 import RightSidebar from "@/components/navigation/RightSidebar";
@@ -18,6 +19,8 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
 
         <RightSidebar />
       </div>
+
+      <ChatButton />
     </main>
   );
 };

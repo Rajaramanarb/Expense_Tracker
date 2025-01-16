@@ -1,3 +1,4 @@
+import LocalSearch from "@/components/LocalSearch";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -16,11 +17,16 @@ const Navbar = () => {
         />
 
         <p className="h2-bold font-space-grotesk text-dark-100 dark:text-light-900 max-sm:hidden">
-          Dev<span className="text-primary-500">Flow</span>
+          Expense<span className="text-primary-500">Tracker</span>
         </p>
       </Link>
 
-      <p>Global Search</p>
+      <LocalSearch
+        route="/"
+        imgSrc="/icons/search.svg"
+        placeholder="Search transactions..."
+        otherClasses="flex-1 max-w-[600px]"
+      />
 
       <div className="flex-between gap-5">
         <Theme />
