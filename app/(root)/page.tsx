@@ -28,11 +28,11 @@ interface SearchParams {
   to?: string;
 }
 
-interface HomeProps {
-  searchParams: SearchParams;
-}
-
-const Home = async ({ searchParams }: HomeProps) => {
+const Home = async ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) => {
   const session = await auth();
   const months = await getMonths();
 
@@ -40,16 +40,11 @@ const Home = async ({ searchParams }: HomeProps) => {
   const allTransactions = await getAllTransactions();
 
   // Get search query
-  const query =
-    typeof searchParams.query === "string"
-      ? searchParams.query.toLowerCase()
-      : "";
+  const query = searchParams.query?.toLowerCase() ?? "";
 
   // Handle the date range parameters
-  const fromDate =
-    typeof searchParams.from === "string" ? searchParams.from : undefined;
-  const toDate =
-    typeof searchParams.to === "string" ? searchParams.to : undefined;
+  const fromDate = searchParams.from;
+  const toDate = searchParams.to;
 
   const currentMonth = fromDate
     ? fromDate.split("/").slice(1).join("/")
