@@ -22,11 +22,12 @@ import {
 import { Toaster } from "@/components/ui/toaster";
 import { getAllTransactions, getMonths } from "@/lib/google-sheets";
 
-const Home = async ({
-  searchParams,
-}: {
+// Defining the correct type for PageProps
+interface HomePageProps {
   searchParams: { [key: string]: string | string[] | undefined };
-}) => {
+}
+
+const Home = async ({ searchParams }: HomePageProps) => {
   const session = await auth();
   const months = await getMonths();
 
