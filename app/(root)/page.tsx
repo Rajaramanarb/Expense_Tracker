@@ -22,12 +22,17 @@ import {
 import { Toaster } from "@/components/ui/toaster";
 import { getAllTransactions, getMonths } from "@/lib/google-sheets";
 
-// Defining the correct type for PageProps
-interface HomePageProps {
-  searchParams: { [key: string]: string | string[] | undefined };
+interface SearchParams {
+  query?: string;
+  from?: string;
+  to?: string;
 }
 
-const Home = async ({ searchParams }: HomePageProps) => {
+interface HomeProps {
+  searchParams: SearchParams;
+}
+
+const Home = async ({ searchParams }: HomeProps) => {
   const session = await auth();
   const months = await getMonths();
 
@@ -85,7 +90,7 @@ const Home = async ({ searchParams }: HomePageProps) => {
 
   return (
     <div className="p-4">
-      <div className="flex justify-between items-center mb-4">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <MonthSelector months={months} currentMonth={currentMonth} />
         </div>
