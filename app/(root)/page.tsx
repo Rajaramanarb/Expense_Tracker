@@ -22,17 +22,17 @@ import {
 import { Toaster } from "@/components/ui/toaster";
 import { getAllTransactions, getMonths } from "@/lib/google-sheets";
 
-interface SearchParams {
+type SearchParams = {
   query?: string;
   from?: string;
   to?: string;
-}
+};
 
-const Home = async ({
-  searchParams,
+export default async function Home({
+  searchParams = {},
 }: {
-  searchParams: { [key: string]: string | undefined };
-}) => {
+  searchParams?: { [key: string]: string | undefined };
+}) {
   const session = await auth();
   const months = await getMonths();
 
@@ -131,6 +131,4 @@ const Home = async ({
       <Toaster />
     </div>
   );
-};
-
-export default Home;
+}
