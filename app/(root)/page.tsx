@@ -22,66 +22,22 @@ import {
 import { Toaster } from "@/components/ui/toaster";
 import { getAllTransactions, getMonths } from "@/lib/google-sheets";
 
-type SearchParams = {
-  query?: string;
-  from?: string;
-  to?: string;
-};
-
-export default async function Home({
-  searchParams = {},
-}: {
-  searchParams?: { [key: string]: string | undefined };
-}) {
+const Home = async () => {
   const session = await auth();
   const months = await getMonths();
 
-  // Get all transactions first
+  // Get all transactions
   const allTransactions = await getAllTransactions();
+  const currentMonth = months[0] || "";
 
-  // Get search query
-  const query = searchParams.query?.toLowerCase() ?? "";
-
-  // Handle the date range parameters
-  const fromDate = searchParams.from;
-  const toDate = searchParams.to;
-
-  const currentMonth = fromDate
-    ? fromDate.split("/").slice(1).join("/")
-    : months[0] || "";
-
-  // First filter by search query
-  const searchFiltered = query
-    ? allTransactions.filter(
-        (row) =>
-          row[1].toLowerCase().includes(query) || // Search in remarks
-          row[0].includes(query) || // Search in date
-          row[2].includes(query) || // Search in debit
-          row[3].includes(query) // Search in credit
-      )
-    : allTransactions;
-
-  // Then filter by date range
-  const filteredData =
-    fromDate && toDate
-      ? searchFiltered.filter((row) => {
-          if (!row[0]) return false;
-          const [day, month, year] = row[0].split("/");
-          const rowDate = new Date(`${month}/${day}/${year}`);
-          const [fromDay, fromMonth, fromYear] = fromDate.split("/");
-          const [toDay, toMonth, toYear] = toDate.split("/");
-          const startDate = new Date(`${fromMonth}/${fromDay}/${fromYear}`);
-          const endDate = new Date(`${toMonth}/${toDay}/${toYear}`);
-          return rowDate >= startDate && rowDate <= endDate;
-        })
-      : searchFiltered.sort((a, b) => {
-          // Sort by date in descending order (newest first)
-          const [dayA, monthA, yearA] = a[0].split("/");
-          const [dayB, monthB, yearB] = b[0].split("/");
-          const dateA = new Date(`${monthA}/${dayA}/${yearA}`);
-          const dateB = new Date(`${monthB}/${dayB}/${yearB}`);
-          return dateB.getTime() - dateA.getTime();
-        });
+  // Sort transactions by date in descending order
+  const filteredData = allTransactions.sort((a, b) => {
+    const [dayA, monthA, yearA] = a[0].split("/");
+    const [dayB, monthB, yearB] = b[0].split("/");
+    const dateA = new Date(`${monthA}/${dayA}/${yearA}`);
+    const dateB = new Date(`${monthB}/${dayB}/${yearB}`);
+    return dateB.getTime() - dateA.getTime();
+  });
 
   return (
     <div className="p-4">
@@ -131,4 +87,6 @@ export default async function Home({
       <Toaster />
     </div>
   );
-}
+};
+
+export default Home;
